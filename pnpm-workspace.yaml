@@ -1,0 +1,7 @@
+# Approve build scripts so CI installs (Vercel) don't fail with
+# ERR_PNPM_IGNORED_BUILDS. Neither dep is needed by the app at runtime
+# (no next/image; eslint isn't run during build) — this just lets
+# `pnpm install` finish cleanly in CI.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
