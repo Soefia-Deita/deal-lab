@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+:root {
+  --background: #f6f8fb;
+  --foreground: #16202e;
+  --card: #ffffff;
+  --card-foreground: #16202e;
+  --popover: #ffffff;
+  --popover-foreground: #16202e;
+  --primary: #2b4c7e;
+  --primary-foreground: #ffffff;
+  --secondary: #e3e9f1;
+  --secondary-foreground: #1a365d;
+  --muted: #eef2f7;
+  --muted-foreground: #5b6877;
+  --accent: #1a365d;
+  --accent-foreground: #ffffff;
+  --destructive: #c1521d;
+  --success: #2f7a4f;
+  --warning: #b07314;
+  --info: #2c7a7b;
+  --border: #e1e7ef;
+  --input: #e1e7ef;
+  --ring: #2b4c7e;
+  --chart-1: #2b4c7e;
+  --chart-2: #2f7a4f;
+  --chart-3: #2c7a7b;
+  --chart-4: #6b46c1;
+  --chart-5: #c1521d;
+  --radius: 0.625rem;
+
+  /* Fallbacks — next/font overrides --font-sans/--font-serif on <html> when
+     Manrope + Fraunces load; these keep the app readable if they ever don't. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, "Apple Color Emoji", sans-serif;
+  --font-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  button,
+  [role="button"],
+  a,
+  select,
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 22%, transparent);
+  }
+}
+
+/* Subtle dotted backdrop for the app chrome */
+.dot-grid {
+  background-image: radial-gradient(circle, rgb(43 76 126 / 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Tabular figures for dense data + report numbers */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@keyframes dl-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: dl-fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes dl-draw {
+  from {
+    stroke-dashoffset: var(--draw-len, 1000);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.animate-draw {
+  animation: dl-draw 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Readiness-scale needle slides from the floor to the team's position */
+@keyframes dl-needle {
+  from {
+    left: 0;
+  }
+  to {
+    left: var(--needle-pos, 0%);
+  }
+}
+.animate-needle {
+  left: var(--needle-pos, 0%);
+  animation: dl-needle 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
