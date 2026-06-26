@@ -23,7 +23,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { SectionLabel } from "@/components/bits";
 import { INITIATIVE_OPTIONS, getInitiative, getSkillPack } from "@/lib/skills";
-import { createPack, defaultDemoInput, savePack, usePacks, DEMO_PACK_ID } from "@/lib/store";
+import { toast } from "sonner";
+import { createProofPack, usePacks } from "@/lib/store";
+import { defaultDemoInput, DEMO_PACK_ID } from "@/lib/pack";
 import type { InitiativeType } from "@/lib/types";
 
 type Row = { name: string; email: string };
@@ -68,12 +70,12 @@ export default function LauncherPage() {
     setRows(ex.participants);
   }
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!canSubmit) return;
+    if (!canSubmit || submitting) return;
     setSubmitting(true);
-    const pack = createPack(
-      {
+    try {
+      const pack = await createProofPack({
         company,
         buyerName,
         buyerRole,
@@ -82,11 +84,12 @@ export default function LauncherPage() {
         businessQuestion: question,
         notes,
         participants: rows,
-      },
-      new Date().toISOString()
-    );
-    savePack(pack);
-    router.push(`/pack/${pack.id}`);
+      });
+      router.push(`/pack/${pack.id}`);
+    } catch {
+      setSubmitting(false);
+      toast.error("Couldn't create your report. Please try again.");
+    }
   }
 
   return (

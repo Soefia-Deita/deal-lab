@@ -39,9 +39,9 @@ export default function ProspectPage() {
   const selectedId = participantId || defaultId;
   const canSubmit = answeredRequired === required.length && !!selectedId;
 
-  function submit() {
+  async function submit() {
     if (!canSubmit || !pack) return;
-    markParticipantComplete(pack.id, selectedId);
+    await markParticipantComplete(pack.id, selectedId);
     setDone(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
